@@ -1,0 +1,21 @@
+[
+  {
+    "name": "Paris",
+    "description": "The city of lights and love.",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Tour_Eiffel_Wikimedia_Commons.jpg",
+    "hotels": [
+      {
+        "name": "Hotel Eiffel",
+        "rating": 4.5,
+        "price": 120,
+        "imageUrl":"https://www.hoteleiffelblomet.com/images/photos/2.jpg"
+      },
+      {
+        "name": "Louvre Stay",
+        "rating": 4.2,
+        "price": 95,
+        "imageUrl":""
+      }
+    ]
+  }
+]
