@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Events - ConnectTourist</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* My Events Page Specific Styles */
+        .myevents-hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url("https://source.unsplash.com/random/1920x1080/?calendar,event");
+        }
+
+        .myevents-section {
+            padding: 5rem 0;
+        }
+
+        .myevents-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .myevents-title {
+            font-size: 1.8rem;
+            color: var(--text-color);
+        }
+
+        .myevents-count {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        #myEventsGrid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .event-card {
+            display: flex;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .event-img {
+            width: 30%;
+            min-width: 200px;
+            overflow: hidden;
+        }
+
+        .event-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .event-card:hover .event-img img {
+            transform: scale(1.1);
+        }
+
+        .event-info {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .event-info h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .event-info p {
+            margin-bottom: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .event-info p:last-of-type {
+            margin-bottom: 1.5rem;
+        }
+
+        .event-info strong {
+            color: var(--text-color);
+        }
+
+        .event-actions {
+            margin-top: auto;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-delete {
+            background-color: var(--danger);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+
+        .no-events {
+            text-align: center;
+            padding: 3rem;
+            background-color: var(--gray-light);
+            border-radius: var(--border-radius);
+            color: var(--text-light);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .event-card {
+                flex-direction: column;
+            }
+
+            .event-img {
+                width: 100%;
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <a href="index.html">Connect<span>Tourist</span></a>
+                </div>
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <!-- <li><a href="destinations.html">Destinations</a></li> -->
+                    <li><a href="tourPackages.html">TourPackages</a></li>
+                    <li><a href="weather.html">Weather</a></li>
+                    <li><a href="myTours.html">MyTours</a></li>
+                    <li><a href="events.html">Events</a></li>
+                    <li><a href="myEvents.html"class="active">myEvents</a></li>
+                    
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Hero -->
+    <div style="background-color: #6b8339;"class="page-hero myevents-hero">
+        <div class="hero-content">
+            <h1>My Events</h1>
+            <p>Manage your saved events and travel plans</p>
+        </div>
+    </div>
+
+    <!-- My Events Section -->
+    <section class="myevents-section">
+        <div class="container">
+            <div class="myevents-header">
+                <h2 class="section-title">My Saved Events</h2>
+            </div>
+
+            <!-- Events List -->
+            <div id="myEventsGrid"></div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Stay Updated</h2>
+                <p>Subscribe to receive notifications about new events in your favorite destinations</p>
+                <form>
+                    <div class="form-group">
+                        <input type="email" placeholder="Enter your email" required>
+                        <button type="submit" class="btn btn-secondary">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>Connect<span>Tourist</span></h3>
+                    <p>Connecting travelers with authentic experiences around the world.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="destinations.html">Destinations</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="weather.html">Weather</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Travel Guide</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-social">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> ConnectTourist. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu').addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Your provided script for fetching and displaying events
+        async function fetchMyEvents() {
+            try {
+                const res = await fetch('/api/myEvents');
+                const events = await res.json();
+                renderMyEvents(events);
+                
+                // Update event count
+                const countElement = document.querySelector('.myevents-count');
+                if (countElement) {
+                    countElement.textContent = `${events.length} Events`;
+                }
+            } catch (error) {
+                console.error('Error fetching events:', error);
+                const grid = document.getElementById('myEventsGrid');
+                grid.innerHTML = `
+                    <div class="no-events">
+                        <i class="fas fa-calendar-times" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
+                        <h3>Unable to load events</h3>
+                        <p>Please try again later or contact support if the problem persists.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderMyEvents(events) {
+            const grid = document.getElementById('myEventsGrid');
+            grid.innerHTML = '';
+            
+            if (events.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-events">
+                        <i class="fas fa-calendar-times" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
+                        <h3>No saved events</h3>
+                        <p>You haven't saved any events yet. Browse our events page to find exciting events!</p>
+                        <a href="events.html" class="btn btn-primary" style="display: inline-block; margin-top: 1rem;">Explore Events</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            events.forEach(event => {
+                const div = document.createElement('div');
+                div.className = 'event-card';
+                div.innerHTML = `
+                    <div class="event-img"><img src="${event.image || 'https://source.unsplash.com/random/600x400/?event'}" alt="${event.name}"></div>
+                    <div class="event-info">
+                        <h3>${event.name}</h3>
+                        <p>${event.description}</p>
+                        <p><strong><i class="fas fa-map-marker-alt" style="color: var(--primary-color);"></i> ${event.city}, ${event.location}</strong></p>
+                        <p><strong><i class="fas fa-calendar-alt" style="color: var(--primary-color);"></i> ${event.date} | <i class="fas fa-clock" style="color: var(--primary-color);"></i> ${event.time}</strong></p>
+                        <p><strong><i class="fas fa-user" style="color: var(--primary-color);"></i> ${event.organizer}</strong></p>
+                        <div class="event-actions">
+                            <button class="btn-delete" onclick="deleteMyEvent('${event._id}')">
+                                <i class="fas fa-trash-alt"></i> Remove Event
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        async function deleteMyEvent(id) {
+            try {
+                await fetch(`/api/myEvents/${id}`, { method: 'DELETE' });
+                fetchMyEvents(); // refresh list
+            } catch (error) {
+                console.error('Error deleting event:', error);
+                alert('Failed to delete event. Please try again.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchMyEvents);
+    </script>
+</body>
+</html>

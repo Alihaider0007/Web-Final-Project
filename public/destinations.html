@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinations - ConnectTourist</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <a href="index.html">Connect<span>Tourist</span></a>
+                </div>
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="destinations.html" class="active">Destinations</a></li>
+                    <li><a href="tourPackages.html".html">TourPackages</a></li>
+                    <li><a href="weather.html">Weather</a></li>
+                    <li><a href="events.html">Events</a></li>
+                    <li><a href="myEvents.html">myEvents</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Destinations Hero -->
+        <section class="page-hero destinations-hero">
+            <div class="hero-content">
+                <h1>Explore Pakistan's Wonders</h1>
+                <p>Discover the diverse landscapes and rich cultural heritage</p>
+                <!-- Search Bar -->
+                <div style="margin-top: 20px;">
+                    <form id="search-form" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                        <input 
+                            type="text" 
+                            id="search-input" 
+                            placeholder="Search for a destination..." 
+                            style="padding: 10px 15px; border: 2px solid #fff; border-radius: 25px; width: 300px; max-width: 80%; font-size: 16px; outline: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1);"
+                        >
+                        <button 
+                            type="submit" 
+                            style="padding: 10px 20px; background-color: olivedrab; color: white; border: none; border-radius: 25px; font-size: 16px; cursor: pointer; transition: background-color 0.3s;"
+                        >
+                            Search
+                        </button>
+                    </form>
+                </div>  
+            </div>
+        </section>
+        
+        
+
+        <!-- Regions Navigation -->
+        <section class="regions-nav">
+            <div class="container">
+                <ul class="regions-list" id="regions-list">
+                    <li class="active" data-region="all">All Regions</li>
+                    <li data-region="north">Northern Areas</li>
+                    <li data-region="punjab">Punjab</li>
+                    <li data-region="sindh">Sindh</li>
+                    <li data-region="balochistan">Balochistan</li>
+                    <li data-region="kpk">Khyber Pakhtunkhwa</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- All Destinations -->
+        <section class="all-destinations">
+            <div class="container">
+                <div class="destinations-grid" id="destinations-grid">
+                    <!-- Northern Areas -->
+                    <div class="destination-card" data-region="north" id="hunza">
+                        <div class="destination-img">
+                            <img src="hunza.jpg" alt="Hunza Valley">
+                        </div>
+                        <div class="destination-info">
+                            <h3>Hunza Valley</h3>
+                            <p>A mountainous valley in the Gilgit-Baltistan region known for its breathtaking landscapes and ancient culture.</p>
+                            <div class="destination-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> Northern Areas</span>
+                                <span><i class="fas fa-star"></i> 4.9</span>
+                            </div>
+                            <a href="#" class="btn btn-secondary">View Details</a>
+                        </div>
+                    </div>
+                    
+                    <div class="destination-card" data-region="north">
+                        <div class="destination-img">
+                            <img src="nanga_parbat.jpg" alt="Fairy Meadows">
+                        </div>
+                        <div class="destination-info">
+                            <h3>Fairy Meadows</h3>
+                            <p>A lush green plateau offering spectacular views of Nanga Parbat, the world's ninth highest mountain.</p>
+                            <div class="destination-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> Northern Areas</span>
+                                <span><i class="fas fa-star"></i> 4.8</span>
+                            </div>
+                            <a href="#" class="btn btn-secondary">View Details</a>
+                        </div>
+                    </div>
+                    
+                    <div class="destination-card" data-region="north">
+                        <div class="destination-img">
+                            <img src="skardu.jpg" alt="Skardu">
+                        </div>
+                        <div class="destination-info">
+                            <h3>Skardu</h3>
+                            <p>A gateway to the mighty Karakoram Range, featuring stunning lakes, deserts, and plateaus.</p>
+                            <div class="destination-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> Northern Areas</span>
+                                <span><i class="fas fa-star"></i> 4.7</span>
+                            </div>
+                            <a href="#" class="btn btn-secondary">View Details</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Punjab -->
+                    <div class="destination-card" data-region="punjab" id="lahore">
+                        <div class="destination-img">
+                            <img src="lahore_fort.jpg" alt="Lahore Fort">
+                        </div>
+                        <div class="destination-info">
+                            <h3>Lahore Fort</h3>
+                            <p>A UNESCO World Heritage site showcasing the rich Mughal architecture and history.</p>
+                            <div class="destination-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> Punjab</span>
+                                <span><i class="fas fa-star"></i> 4.6</span>
+                            </div>
+                            <a href="#" class="btn btn-secondary">View Details</a>
+                        </div>
+                    </div>
+                    
+                    <div class="destination-card" data-region="punjab">
+                        <div class="destination-img">
+                            <img src="lahore.jpg" alt="Badshahi Mosque">
+                        </div>
+                        <div class="destination-info">
+                            <h3>Badshahi Mosque</h3>
+                            <p>One of the largest mosques in the world, built by Emperor Aurangzeb in the 17th century.</p>
+                            <div class="destination-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> Punjab</span>
+                                <span><i class="fas fa-star"></i> 4.8</span>
+                            </div>
+                            <a href="#" class="btn btn-secondary">View Details</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Sindh -->
+                    <div class="destination-card" data-region="sindh">
+                        <div class="destination-img">
+                            <img src="Mohenjo_daro.jpeg" alt="Mohenjo-daro">
+                        </div>
+                        <div class="destination-info">
+                            <h3>Mohenjo-daro</h3>
+                            <p>An archaeological site representing one of the world's earliest urban settlements dating back to 2500 BCE.</p>
+                            <div class="destination-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> Sindh</span>
+                                <span><i class="fas fa-star"></i> 4.5</span>
+                            </div>
+                            <a href="#" class="btn btn-secondary">View Details</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Khyber Pakhtunkhwa -->
+                    <div class="destination-card" data-region="kpk" id="swat">
+                        <div class="destination-img">
+                            <img src="swaat_valley.jpg" alt="Swat Valley">
+                        </div>
+                        <div class="destination-info">
+                            <h3>Swat Valley</h3>
+                            <p>Known as the "Switzerland of Pakistan" for its snow-capped mountains and lush green meadows.</p>
+                            <div class="destination-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> Khyber Pakhtunkhwa</span>
+                                <span><i class="fas fa-star"></i> 4.7</span>
+                            </div>
+                            <a href="#" class="btn btn-secondary">View Details</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Balochistan -->
+                    <div class="destination-card" data-region="balochistan">
+                        <div class="destination-img">
+                            <img src="Hingol National Park.jpg" alt="Hingol National Park">
+                        </div>
+                        <div class="destination-info">
+                            <h3>Hingol National Park</h3>
+                            <p>Pakistan's largest national park featuring diverse landscapes from desert to mountains to beaches.</p>
+                            <div class="destination-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> Balochistan</span>
+                                <span><i class="fas fa-star"></i> 4.6</span>
+                            </div>
+                            <a href="#" class="btn btn-secondary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>Connect<span>Tourist</span></h3>
+                    <p>Your guide to exploring Pakistan's beauty</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="destinations.html">Destinations</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 ConnectTourist. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

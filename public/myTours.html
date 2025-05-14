@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Tours - ConnectTourist</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* My Tours Page Specific Styles */
+        .mytours-hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url("https://source.unsplash.com/random/1920x1080/?travel,mountains");
+        }
+
+        .mytours-section {
+            padding: 5rem 0;
+        }
+
+        .mytours-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .mytours-title {
+            font-size: 1.8rem;
+            color: var(--text-color);
+        }
+
+        .mytours-count {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        #myToursGrid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .tour-card {
+            display: flex;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .tour-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .tour-img {
+            width: 30%;
+            min-width: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .tour-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .tour-card:hover .tour-img img {
+            transform: scale(1.1);
+        }
+
+        .tour-duration {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .tour-info {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tour-info h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .tour-info p {
+            margin-bottom: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .tour-info p:last-of-type {
+            margin-bottom: 1.5rem;
+        }
+
+        .tour-info strong {
+            color: var(--text-color);
+        }
+
+        .tour-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .tour-inclusions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .inclusion-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            background-color: rgba(85, 107, 47, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+        }
+
+        .inclusion-icon {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+
+        .tour-actions {
+            margin-top: auto;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-view {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-view:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-delete {
+            background-color: var(--danger);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+
+        .no-tours {
+            text-align: center;
+            padding: 3rem;
+            background-color: var(--gray-light);
+            border-radius: var(--border-radius);
+            color: var(--text-light);
+        }
+
+        .booking-status {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .status-confirmed {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--warning);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .tour-card {
+                flex-direction: column;
+            }
+
+            .tour-img {
+                width: 100%;
+                height: 200px;
+            }
+
+            .tour-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <a href="index.html">Connect<span>Tourist</span></a>
+                </div>
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                        <!-- <li><a href="destinations.html">Destinations</a></li> -->
+                        <li><a href="tourPackages.html">Tour Packages</a></li>
+                        <li><a href="weather.html">Weather</a></li>
+                        <li><a href="myTours.html"  class="active">MyTours</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="myEvents.html">MyEvents</a></li>
+                        
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Hero -->
+    <div class="page-hero mytours-hero">
+        <div class="hero-content">
+            <h1>My Tours</h1>
+            <p>Manage your booked tours and travel packages</p>
+        </div>
+    </div>
+
+   <!-- My Tours Section -->
+<section class="mytours-section">
+    <div class="container">
+        <div class="mytours-header">
+            <h2 class="section-title">My Booked Tours</h2>
+        </div>
+
+        <!-- Single Tour View -->
+        <div id="tourDetailsContainer" style="margin-bottom: 2rem;"></div>
+
+        <!-- All Booked Tours List -->
+        <div id="myToursGrid"></div>
+    </div>
+</section>
+
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Get Exclusive Tour Deals</h2>
+                <p>Subscribe to receive special offers and travel inspiration</p>
+                <form>
+                    <div class="form-group">
+                        <input type="email" placeholder="Enter your email" required>
+                        <button type="submit" class="btn btn-secondary">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>Connect<span>Tourist</span></h3>
+                    <p>Connecting travelers with authentic experiences around the world.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="destinations.html">Destinations</a></li>
+                        <li><a href="tourPackages.html" class="active">Tour Packages</a></li>
+                        
+                        <li><a href="weather.html">Weather</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="myEvents.html">MyEvents</a></li>
+                        <li><a href="myTours.html">MyTours</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Travel Guide</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-social">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> ConnectTourist. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    // Mobile menu toggle
+    document.getElementById('mobile-menu').addEventListener('click', function () {
+        document.querySelector('.nav-menu').classList.toggle('active');
+    });
+
+    // Set current year in footer
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // Get package ID from URL
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    // If ID exists in URL -> show selected package
+    if (id) {
+        fetchSingleTour(id);
+    } else {
+        // Otherwise show all my booked tours
+        fetchMyTours();
+    }
+
+    // Fetch one tour by ID
+    async function fetchSingleTour(id) {
+        try {
+            const res = await fetch(`/api/packages/${id}`);
+            if (!res.ok) throw new Error("Failed to fetch tour");
+
+            const pkg = await res.json();
+
+            const html = `
+                <div class="tour-card">
+                    <h2>${pkg.name}</h2>
+                    <img src="${pkg.image}" alt="${pkg.name}" style="max-width: 300px;" />
+                    <p><strong>Location:</strong> ${pkg.city}${pkg.location ? ', ' + pkg.location : ''}</p>
+                    <p><strong>Duration:</strong> ${pkg.duration} days</p>
+                    <p><strong>Price:</strong> ₹${pkg.price}</p>
+                    <p><strong>Description:</strong> ${pkg.description || 'No description available.'}</p>
+                    <ul>
+                        ${pkg.meals ? "<li>Meals included</li>" : ""}
+                        ${pkg.hotel ? "<li>Hotel included</li>" : ""}
+                        ${pkg.transport ? "<li>Transport included</li>" : ""}
+                        ${pkg.guide ? "<li>Guide included</li>" : ""}
+                    </ul>
+                </div>
+            `;
+
+            const container = document.getElementById("tourDetailsContainer");
+            if (container) container.innerHTML = html;
+        } catch (err) {
+            console.error("Error loading tour:", err);
+            document.getElementById("tourDetailsContainer").innerHTML = "<p>Unable to load tour details.</p>";
+        }
+    }
+
+    // Fetch my booked tours
+    async function fetchMyTours() {
+  const res = await fetch('/api/myTours');
+  const tours = await res.json();
+  renderMyTours(tours);
+}
+
+
+    // Render tours list
+    function renderMyTours(tours) {
+        const grid = document.getElementById('myToursGrid');
+        grid.innerHTML = '';
+
+        if (tours.length === 0) {
+            grid.innerHTML = `
+                <div class="no-tours">
+                    <i class="fas fa-suitcase-rolling" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
+                    <h3>No booked tours</h3>
+                    <p>You haven't booked any tours yet. Browse our tour packages to find your next adventure!</p>
+                    <a href="tourPackages.html" class="btn btn-primary" style="display: inline-block; margin-top: 1rem;">Explore Tour Packages</a>
+                </div>
+            `;
+            return;
+        }
+
+        tours.forEach(tour => {
+            const inclusions = [];
+            if (tour.meals) inclusions.push('<div class="inclusion-item"><i class="fas fa-utensils inclusion-icon"></i>Meals</div>');
+            if (tour.hotel) inclusions.push('<div class="inclusion-item"><i class="fas fa-bed inclusion-icon"></i>Hotel</div>');
+            if (tour.transport) inclusions.push('<div class="inclusion-item"><i class="fas fa-car inclusion-icon"></i>Transport</div>');
+            if (tour.guide) inclusions.push('<div class="inclusion-item"><i class="fas fa-user-tie inclusion-icon"></i>Guide</div>');
+
+            const statusClass = tour.status === 'confirmed' ? 'status-confirmed' : 'status-pending';
+            const statusIcon = tour.status === 'confirmed' ? 'fa-check-circle' : 'fa-clock';
+            const statusText = tour.status === 'confirmed' ? 'Booking Confirmed' : 'Booking Pending';
+
+            const div = document.createElement('div');
+            div.className = 'tour-card';
+            div.innerHTML = `
+                <div class="tour-img">
+                    <img src="${tour.image || 'https://source.unsplash.com/random/600x400/?travel'}" alt="${tour.packageName}">
+                    <div class="tour-duration">${tour.duration}</div>
+                </div>
+                <div class="tour-info">
+                    <h3>${tour.packageName}</h3>
+                    <span class="booking-status ${statusClass}">
+                        <i class="fas ${statusIcon}"></i> ${statusText}
+                    </span>
+                    <p>${tour.description || 'Experience an unforgettable journey with this amazing tour package.'}</p>
+                    <p><strong><i class="fas fa-map-marker-alt" style="color: var(--primary-color);"></i> ${tour.location}</strong></p>
+                    <p><strong><i class="fas fa-calendar-alt" style="color: var(--primary-color);"></i> ${tour.travelDate || 'Flexible dates'}</strong></p>
+                    <div class="tour-price">${tour.price}</div>
+                    <div class="tour-inclusions">
+                        ${inclusions.join('') || '<div class="inclusion-item"><i class="fas fa-check inclusion-icon"></i>Standard Package</div>'}
+                    </div>
+                    <div class="tour-actions">
+                        <button class="btn-view" onclick="viewTourDetails('${tour._id}')">
+                            <i class="fas fa-info-circle"></i> View Details
+                        </button>
+                        <button class="btn-delete" onclick="cancelTour('${tour._id}')">
+                            <i class="fas fa-times-circle"></i> Cancel Booking
+                        </button>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(div);
+        });
+    }
+
+    // View details
+    function viewTourDetails(id) {
+        alert('View tour details functionality will be implemented.');
+    }
+
+    // Cancel booking
+    async function cancelTour(id) {
+        if (confirm('Are you sure you want to cancel this tour booking?')) {
+            try {
+                await fetch(`/api/myTours/${id}`, { method: 'DELETE' });
+                fetchMyTours();
+            } catch (error) {
+                console.error('Error canceling tour:', error);
+                alert('Failed to cancel tour. Please try again.');
+            }
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour Packages - ConnectTourist</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Tour Packages Page Specific Styles */
+        .packages-hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url("https://source.unsplash.com/random/1920x1080/?travel,landscape");
+        }
+
+        .filter-section {
+            background-color: var(--gray-light);
+            padding: 2rem 0;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--gray-dark);
+        }
+
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .filter-select, .filter-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray-dark);
+            border-radius: var(--border-radius);
+            background-color: var(--white);
+            font-family: inherit;
+        }
+
+        .filter-select:focus, .filter-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .filter-button {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            align-self: flex-end;
+        }
+
+        .filter-button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .tour-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .tour-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tour-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .tour-img-container {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .tour-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .tour-card:hover .tour-img {
+            transform: scale(1.1);
+        }
+
+        .tour-duration {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .tour-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tour-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-color);
+        }
+
+        .tour-description {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .tour-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .tour-detail {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .tour-icon {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .tour-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .tour-inclusions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .inclusion-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .inclusion-icon {
+            background-color: rgba(85, 107, 47, 0.1);
+            color: var(--primary-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .tour-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: auto;
+        }
+
+        .btn-view {
+            flex: 1;
+            padding: 0.75rem;
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .btn-view:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-book {
+            flex: 1;
+            padding: 0.75rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .btn-book:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .loading-container {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .loading-spinner {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .filter-container {
+                flex-direction: column;
+                padding: 0 1rem;
+            }
+
+            .filter-group {
+                width: 100%;
+            }
+
+            .tour-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <a href="index.html">Connect<span>Tourist</span></a>
+                </div>
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <!-- <li><a href="destinations.html">Destinations</a></li>  -->
+                    <li><a href="tourPackages.html".html class="active"">TourPackages</a></li>
+                    <li><a href="weather.html">Weather</a></li>
+                    <li><a href="myTours.html">MyTours</a></li>
+                    <li><a href="events.html">Events</a></li>
+                    <li><a href="myEvents.html">myEvents</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Hero -->
+    <div class="page-hero packages-hero">
+        <div class="hero-content">
+            <h1>Tour Packages</h1>
+            <p>Discover amazing travel experiences curated just for you</p>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <div class="container">
+            <div class="filter-container">
+                <div class="filter-group">
+                    <label for="destination" class="filter-label">Destination</label>
+                    <select id="destination" class="filter-select">
+                        <option value="">All Destinations</option>
+                        <option value="Paris">Paris</option>
+                        <option value="Rome">Rome</option>
+                        <option value="Barcelona">Barcelona</option>
+                        <option value="Tokyo">Tokyo</option>
+                        <option value="New York">New York</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="date" class="filter-label">Travel Date</label>
+                    <input type="date" id="date" class="filter-input">
+                </div>
+                <div class="filter-group">
+                    <label for="budget" class="filter-label">Budget Range</label>
+                    <select id="budget" class="filter-select">
+                        <option value="">Any Budget</option>
+                        <option value="budget">Budget (Under $1000)</option>
+                        <option value="mid">Mid-range ($1000-$3000)</option>
+                        <option value="luxury">Luxury (Above $3000)</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="duration" class="filter-label">Duration</label>
+                    <select id="duration" class="filter-select">
+                        <option value="">Any Duration</option>
+                        <option value="short">Short (1-3 days)</option>
+                        <option value="medium">Medium (4-7 days)</option>
+                        <option value="long">Long (8+ days)</option>
+                    </select>
+                </div>
+                <button class="filter-button" onclick="applyFilters()">
+                    <i class="fas fa-filter"></i> Apply Filters
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tour Packages Section -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">Available Tour Packages</h2>
+            <div id="tourGrid" class="tour-grid">
+                <!-- Tour packages will be loaded here -->
+                <div class="loading-container">
+                    <i class="fas fa-spinner loading-spinner"></i>
+                    <p>Loading tour packages...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Get Exclusive Tour Deals</h2>
+                <p>Subscribe to receive special offers and travel inspiration</p>
+                <form>
+                    <div class="form-group">
+                        <input type="email" placeholder="Enter your email" required>
+                        <button type="submit" class="btn btn-secondary">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>Connect<span>Tourist</span></h3>
+                    <p>Connecting travelers with authentic experiences around the world.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <!-- <li><a href="destinations.html">Destinations</a></li> -->
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="weather.html">Weather</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Travel Guide</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-social">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> ConnectTourist. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu').addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // 1. Fetch all tour packages from the server
+        async function fetchPackages(filters = {}) {
+            let query = '/api/packages?';
+            const params = [];
+
+            if (filters.destination) params.push(`destination=${encodeURIComponent(filters.destination)}`);
+            if (filters.budget) params.push(`budget=${encodeURIComponent(filters.budget)}`);
+            if (filters.duration) params.push(`duration=${encodeURIComponent(filters.duration)}`);
+
+            query += params.join('&');
+
+            try {
+                const response = await fetch(query);
+                const packages = await response.json();
+                renderPackages(packages);
+            } catch (err) {
+                console.error('Error fetching filtered packages:', err);
+            }
+         }
+
+
+        // 2. Render each package as a card with a "Book Now" button
+        function renderPackages(packages) {
+            const tourGrid = document.getElementById('tourGrid');
+            tourGrid.innerHTML = ''; // clear any loading text
+
+            if (packages.length === 0) {
+                tourGrid.innerHTML = `
+                    <div class="loading-container">
+                        <i class="fas fa-search" style="font-size: 2rem; color: var(--primary-color);"></i>
+                        <p>No tour packages found matching your criteria.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            packages.forEach(pkg => {
+                const card = document.createElement('div');
+                card.className = 'tour-card';
+                
+                // Create inclusions icons based on package features
+                const inclusions = [];
+                if (pkg.meals) inclusions.push('<div class="inclusion-item"><div class="inclusion-icon"><i class="fas fa-utensils"></i></div>Meals</div>');
+                if (pkg.hotel) inclusions.push('<div class="inclusion-item"><div class="inclusion-icon"><i class="fas fa-bed"></i></div>Hotel</div>');
+                if (pkg.transport) inclusions.push('<div class="inclusion-item"><div class="inclusion-icon"><i class="fas fa-car"></i></div>Transport</div>');
+                if (pkg.guide) inclusions.push('<div class="inclusion-item"><div class="inclusion-icon"><i class="fas fa-user-tie"></i></div>Guide</div>');
+                
+                card.innerHTML = `
+                    <div class="tour-img-container">
+                        <img src="${pkg.image || 'https://source.unsplash.com/random/600x400/?travel'}" alt="${pkg.name}" class="tour-img">
+                        <div class="tour-duration">${pkg.duration}</div>
+                    </div>
+                    <div class="tour-content">
+                        <h3 class="tour-title">${pkg.name}</h3>
+                        <p class="tour-description">${pkg.description}</p>
+                        <div class="tour-details">
+                            <div class="tour-detail">
+                                <i class="fas fa-map-marker-alt tour-icon"></i>
+                                <span>${pkg.city}${pkg.location ? ', ' + pkg.location : ''}</span>
+                            </div>
+                            <div class="tour-detail">
+                                <i class="fas fa-calendar-alt tour-icon"></i>
+                                <span>${pkg.duration}</span>
+                            </div>
+                        </div>
+                        <div class="tour-price">${pkg.price}</div>
+                        <div class="tour-inclusions">
+                            ${inclusions.join('')}
+                        </div>
+                        <div class="tour-actions">
+                            
+                            <button onclick="bookNow('${pkg._id}')">Book Now</button>
+
+                        </div>
+                    </div>
+                `;
+                
+                tourGrid.appendChild(card);
+            });
+        }
+
+        // 3. When "Book Now" is clicked, POST this package to /api/bookings
+       function bookNow(pkg) {
+    fetch('/api/myTours', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            packageName: pkg.name,
+            image: pkg.image,
+            location: pkg.city || pkg.location,
+            duration: pkg.duration,
+            price: pkg.price,
+            description: pkg.description,
+            meals: pkg.meals,
+            hotel: pkg.hotel,
+            transport: pkg.transport,
+            guide: pkg.guide
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert("Tour booked successfully!");
+        window.location.href = "myTours.html";
+    })
+    .catch(err => {
+        console.error("Booking failed:", err);
+        alert("Failed to book tour.");
+    });
+}
+
+
+
+
+
+        // Function to apply filters
+        async function applyFilters() {
+        const destination = document.getElementById('destination').value;
+        const budget = document.getElementById('budget').value;
+        const duration = document.getElementById('duration').value;
+
+        document.getElementById('tourGrid').innerHTML = `
+            <div class="loading-container">
+                <i class="fas fa-spinner loading-spinner"></i>
+                <p>Filtering tour packages...</p>
+            </div>
+        `;
+
+        // Build query string based on selected filters
+        const params = new URLSearchParams();
+
+        if (destination) params.append('destination', destination);
+        if (budget) params.append('budget', budget);
+        if (duration) params.append('duration', duration);
+
+        try {
+            const response = await fetch(`/api/packages?${params.toString()}`);
+            if (!response.ok) throw new Error('Failed to fetch filtered packages');
+            const filteredPackages = await response.json();
+            renderPackages(filteredPackages);
+        } catch (err) {
+            console.error('Error filtering packages:', err);
+            document.getElementById('tourGrid').innerHTML = `
+                <div class="loading-container">
+                    <i class="fas fa-exclamation-circle" style="font-size: 2rem; color: var(--danger);"></i>
+                    <p>Failed to load packages. Please try again later.</p>
+                </div>
+            `;
+        }
+    }
+
+
+        // 4. Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchPackages();
+        });
+
+        
+
+        // Uncomment this line to use sample data if the API is not available
+        // loadSampleData();
+    </script>
+</body>
+</html>

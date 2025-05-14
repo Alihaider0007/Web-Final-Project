@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 24px;
+        }
+        p.description {
+            text-align: center;
+            color: #666;
+            margin-bottom: 24px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f8f8f8;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) inset;
+        }
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #aaa;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) inset;
+        }
+        .error {
+            color: #e53935;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        button {
+            background-color: #333333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #222222;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        .login-link a {
+            color: #333333;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        .success-message {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 16px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+        .return-button {
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Reset Password</h1>
+        <p class="description">Enter your email to receive a password reset link</p>
+        
+        <div class="success-message" id="success-message">
+            If an account exists with the email <strong id="submitted-email"></strong>, you will receive a password reset link shortly.
+        </div>
+        
+        <form id="resetForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email">
+                <div class="error" id="email-error">Email is required</div>
+            </div>
+            <button type="submit">Reset Password</button>
+        </form>
+        
+        <div class="return-button" id="return-button">
+            <a href="login.html">
+                <button>Return to Login</button>
+            </a>
+        </div>
+        
+        <div class="login-link">
+            Remember your password? <a href="login.html">Login</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('resetForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Reset errors
+            document.getElementById('email-error').style.display = 'none';
+            
+            // Get form values
+            const email = document.getElementById('email').value.trim();
+            
+            let isValid = true;
+            
+            // Validate email
+            if (email === '') {
+                document.getElementById('email-error').textContent = 'Email is required';
+                document.getElementById('email-error').style.display = 'block';
+                isValid = false;
+            } else if (!/\S+@\S+\.\S+/.test(email)) {
+                document.getElementById('email-error').textContent = 'Email is invalid';
+                document.getElementById('email-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (isValid) {
+                // Send POST request to the backend
+                fetch('/reset-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                })
+                .then(response => response.text())
+            .then(data => {
+                document.getElementById('submitted-email').textContent = email;
+                document.getElementById('success-message').style.display = 'block';
+                document.getElementById('resetForm').style.display = 'none';
+                document.getElementById('return-button').style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error sending reset email:', error);
+            alert('Something went wrong. Please try again later.');
+        });
+    }
+
+        });
+    </script>
+</body>
+</html>

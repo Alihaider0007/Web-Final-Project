@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - ConnectTourist</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Events Page Specific Styles */
+        .events-hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url("https://source.unsplash.com/random/1920x1080/?travel,event");
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        .search-bar {
+            display: flex;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+        }
+
+        .search-button {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 0 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .event-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .event-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .event-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .event-card:hover .event-img img {
+            transform: scale(1.1);
+        }
+
+        .event-info {
+            padding: 1.5rem;
+        }
+
+        .event-info h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .event-description {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .event-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .event-detail {
+            display: flex;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .event-icon {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+
+        .no-events {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem;
+            background-color: var(--gray-light);
+            border-radius: var(--border-radius);
+        }
+
+        /* Responsive Design for Events Page */
+        @media (max-width: 992px) {
+            .events-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .search-button {
+                padding: 10px;
+            }
+
+            .event-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar (Exactly as provided) -->
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <a href="index.html">Connect<span>Tourist</span></a>
+                </div>
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <!-- <li><a href="destinations.html">Destinations</a></li> -->
+                    <li><a href="tourPackages.html">TourPackages</a></li>
+                    <li><a href="weather.html">Weather</a></li>
+                    <li><a href="myTours.html">MyTours</a></li>
+                    <li><a href="events.html" class="active">Events</a></li>
+                    <li><a href="myEvents.html">myEvents</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Hero -->
+    <div class="page-hero events-hero">
+        <div class="hero-content">
+            <h1>Upcoming Events</h1>
+            <p>Discover exciting events happening around the world</p>
+        </div>
+    </div>
+
+    <!-- Events Section -->
+    <section class="events-section">
+        <div class="container">
+            <h2 class="section-title">Find Events</h2>
+
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-bar">
+                    <input type="text" id="cityInput" placeholder="Search by city or event name..." />
+                    <button class="search-button" onclick="searchEvents()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Events Grid -->
+            <div class="events-grid" id="eventsGrid">
+                <!-- Event cards will be dynamically generated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Subscribe to Our Newsletter</h2>
+                <p>Stay updated with the latest events and travel destinations</p>
+                <form>
+                    <div class="form-group">
+                        <input type="email" placeholder="Enter your email" required>
+                        <button type="submit" class="btn btn-secondary">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>Connect<span>Tourist</span></h3>
+                    <p>Connecting travelers with authentic experiences around the world.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="destinations.html">Destinations</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="weather.html">Weather</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Travel Guide</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-social">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> ConnectTourist. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+    // Function to render events on the page (same as before)
+    function renderEvents(events) {
+        const eventsGrid = document.getElementById('eventsGrid');
+        eventsGrid.innerHTML = '';
+
+        if (events.length === 0) {
+            eventsGrid.innerHTML = `
+                <div class="no-events">
+                    <p>No events found. Try a different search term.</p>
+                </div>
+            `;
+            return;
+        }
+
+        events.forEach(event => {
+            const eventCard = document.createElement('div');
+            eventCard.className = 'event-card';
+            eventCard.innerHTML = `
+                <div class="event-img">
+                    <img src="${event.image}" alt="${event.name}">
+                </div>
+                <div class="event-info">
+                    <h3>${event.name}</h3>
+                    <p class="event-description">${event.description}</p>
+                    
+                    <div class="event-details">
+                        <div class="event-detail">
+                            <i class="fas fa-map-marker-alt event-icon"></i>
+                            <span>${event.city}, ${event.location}</span>
+                        </div>
+                        <div class="event-detail">
+                            <i class="fas fa-calendar-alt event-icon"></i>
+                            <span>${event.date}</span>
+                        </div>
+                        <div class="event-detail">
+                            <i class="fas fa-clock event-icon"></i>
+                            <span>${event.time}</span>
+                        </div>
+                        <div class="event-detail">
+                            <i class="fas fa-user event-icon"></i>
+                            <span>${event.organizer}</span>
+                        </div>
+                    </div>
+                    
+                    <a href="#" class="btn btn-primary" onclick='addToMyEvents(${JSON.stringify(event)})'>ADD</a>
+
+                </div>
+            `;
+            eventsGrid.appendChild(eventCard);
+        });
+    }
+    //addToMyEvents() function
+    function addToMyEvents(event) {
+    fetch('/api/myEvents', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(event)
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert("Event added successfully!");
+    })
+    .catch(error => console.error('Error adding event:', error));
+    }
+
+
+    // 🔍 Fetch events with optional city search
+    async function searchEvents() {
+        const searchTerm = document.getElementById('cityInput').value.toLowerCase();
+        try {
+            const response = await fetch(`/api/events?city=${encodeURIComponent(searchTerm)}`);
+            const data = await response.json();
+            renderEvents(data);
+        } catch (err) {
+            console.error('Error fetching events:', err);
+        }
+    }
+
+    // ⏳ Load all events on page load
+    async function fetchAllEvents() {
+        try {
+            const response = await fetch('/api/events');
+            const data = await response.json();
+            renderEvents(data);
+        } catch (err) {
+            console.error('Error loading events:', err);
+        }
+    }
+
+    // 🚀 Initialize
+    document.addEventListener('DOMContentLoaded', function () {
+        fetchAllEvents();
+        document.getElementById('cityInput').addEventListener('input', searchEvents);
+    });
+</script>
+
+</body>
+</html>

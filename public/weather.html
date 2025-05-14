@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather - ConnectTourist</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Weather Page Specific Styles */
+        .weather-hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url("https://source.unsplash.com/random/1920x1080/?weather,sky");
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        .search-box {
+            display: flex;
+            width: 100%;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+
+        #cityInput {
+            flex: 1;
+            padding: 15px 20px;
+            font-size: 1rem;
+            border: none;
+            outline: none;
+        }
+
+        .search-btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 0 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .weather-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .weather-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .city-name {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .weather-icon {
+            font-size: 5rem;
+            margin: 10px 0;
+            color: var(--primary-color);
+        }
+
+        .temperature {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 10px 0;
+            color: var(--text-color);
+        }
+
+        .condition {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            text-transform: capitalize;
+        }
+
+        .details {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .detail-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .error-message {
+            color: var(--danger);
+            text-align: center;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(220, 53, 69, 0.1);
+            border-radius: var(--border-radius);
+        }
+
+        .loading {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .search-box {
+                flex-direction: column;
+            }
+
+            #cityInput {
+                border-radius: var(--border-radius) var(--border-radius) 0 0;
+                text-align: center;
+            }
+
+            .search-btn {
+                padding: 12px;
+                border-radius: 0 0 var(--border-radius) var(--border-radius);
+            }
+
+            .weather-card {
+                padding: 20px;
+            }
+
+            .temperature {
+                font-size: 3rem;
+            }
+
+            .city-name {
+                font-size: 1.8rem;
+            }
+
+            .details {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar (Exactly as provided) -->
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <a href="index.html">Connect<span>Tourist</span></a>
+                </div>
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <!-- <li><a href="destinations.html">Destinations</a></li> -->
+                    <li><a href="tourPackages.html">TourPackages</a></li>
+                    <li><a href="weather.html" class="active">Weather</a></li>
+                    <li><a href="myTours.html">MyTours</a></li>
+                    <li><a href="events.html">Events</a></li>
+                    <li><a href="myEvents.html">myEvents</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Weather Section -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">Check Weather</h2>
+            
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="cityInput" placeholder="Enter city name..." />
+                    <button class="search-btn" onclick="getWeather()">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+            
+            <div id="loadingIndicator" class="loading hidden">
+                <i class="fas fa-spinner fa-spin"></i> Fetching weather data...
+            </div>
+            
+            <div id="weatherOutput" class="weather-card hidden"></div>
+            
+            <div id="errorMessage" class="error-message hidden"></div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Get Weather Updates</h2>
+                <p>Subscribe to receive weather alerts and travel recommendations</p>
+                <form>
+                    <div class="form-group">
+                        <input type="email" placeholder="Enter your email" required>
+                        <button type="submit" class="btn btn-secondary">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>Connect<span>Tourist</span></h3>
+                    <p>Connecting travelers with authentic experiences around the world.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="destinations.html">Destinations</a></li>
+                        <li><a href="weather.html" class="active">Weather</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Travel Guide</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-social">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> ConnectTourist. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Get elements
+        const cityInput = document.getElementById('cityInput');
+        const weatherOutput = document.getElementById('weatherOutput');
+        const errorMessage = document.getElementById('errorMessage');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        
+        // Add event listener for Enter key
+        cityInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                getWeather();
+            }
+        });
+        
+        // Function to get weather icon based on weather condition
+        function getWeatherIcon(weatherId) {
+            // Weather condition codes: https://openweathermap.org/weather-conditions
+            if (weatherId >= 200 && weatherId < 300) {
+                return '<i class="fas fa-bolt weather-icon"></i>'; // Thunderstorm
+            } else if (weatherId >= 300 && weatherId < 400) {
+                return '<i class="fas fa-cloud-rain weather-icon"></i>'; // Drizzle
+            } else if (weatherId >= 500 && weatherId < 600) {
+                return '<i class="fas fa-cloud-showers-heavy weather-icon"></i>'; // Rain
+            } else if (weatherId >= 600 && weatherId < 700) {
+                return '<i class="fas fa-snowflake weather-icon"></i>'; // Snow
+            } else if (weatherId >= 700 && weatherId < 800) {
+                return '<i class="fas fa-smog weather-icon"></i>'; // Atmosphere (fog, mist, etc.)
+            } else if (weatherId === 800) {
+                return '<i class="fas fa-sun weather-icon"></i>'; // Clear sky
+            } else if (weatherId > 800) {
+                return '<i class="fas fa-cloud weather-icon"></i>'; // Clouds
+            } else {
+                return '<i class="fas fa-cloud-sun weather-icon"></i>'; // Default
+            }
+        }
+        
+        // Function to get weather data
+        function getWeather() {
+            const city = cityInput.value.trim();
+            const apiKey = '9492917016a6c614fbe8df3a0d6710bf';
+            
+            // Show loading indicator and hide other elements
+            weatherOutput.classList.add('hidden');
+            errorMessage.classList.add('hidden');
+            loadingIndicator.classList.remove('hidden');
+            
+            if (!city) {
+                loadingIndicator.classList.add('hidden');
+                errorMessage.textContent = "Please enter a city name.";
+                errorMessage.classList.remove('hidden');
+                return;
+            }
+            
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('City not found');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Hide loading indicator
+                    loadingIndicator.classList.add('hidden');
+                    
+                    // Format and display weather data
+                    const temp = Math.round(data.main.temp);
+                    const feelsLike = Math.round(data.main.feels_like);
+                    const humidity = data.main.humidity;
+                    const windSpeed = data.wind.speed;
+                    const weatherIcon = getWeatherIcon(data.weather[0].id);
+                    
+                    const weatherHTML = `
+                        <h2 class="city-name">${data.name}, ${data.sys.country}</h2>
+                        ${weatherIcon}
+                        <div class="temperature">${temp}°C</div>
+                        <div class="condition">${data.weather[0].description}</div>
+                        
+                        <div class="details">
+                            <div class="detail-item">
+                                <div class="detail-label">Feels Like</div>
+                                <div class="detail-value">${feelsLike}°C</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Humidity</div>
+                                <div class="detail-value">${humidity}%</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Wind</div>
+                                <div class="detail-value">${windSpeed} m/s</div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    weatherOutput.innerHTML = weatherHTML;
+                    weatherOutput.classList.remove('hidden');
+                })
+                .catch(error => {
+                    loadingIndicator.classList.add('hidden');
+                    errorMessage.textContent = error.message === 'City not found' 
+                        ? "City not found. Please check the spelling and try again." 
+                        : "Unable to fetch weather data. Please try again later.";
+                    errorMessage.classList.remove('hidden');
+                    console.error('Error fetching weather:', error);
+                });
+        }
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu').addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

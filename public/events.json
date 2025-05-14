@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Lahore Literature Festival",
+    "description": "A celebration of literature, culture, and art featuring authors, poets, and thinkers.",
+    "city": "Lahore",
+    "location": "Alhamra Arts Council",
+    "date": "February 22, 2025",
+    "time": "10:00 AM - 6:00 PM",
+    "organizer": "LLF Foundation",
+    "image": "https://res.cloudinary.com/djbq8nnsr/image/upload/v1747084301/lahore_Literature_fc31rr.jpg"
+  },
+  {
+    "name": "Karachi Food Carnival",
+    "description": "Savor street food and gourmet delights from top chefs and local vendors.",
+    "city": "Karachi",
+    "location": "Beach View Park",
+    "date": "March 10, 2025",
+    "time": "12:00 PM - 10:00 PM",
+    "organizer": "Karachi Events Org",
+    "image": "https://res.cloudinary.com/djbq8nnsr/image/upload/v1747084319/karachi_food_ay1xd5.jpg"
+  },
+  {
+    "name": "Islamabad Tech Summit",
+    "description": "Explore cutting-edge innovations, startups, and technology talks from industry leaders.",
+    "city": "Islamabad",
+    "location": "Pak-China Friendship Centre",
+    "date": "April 5, 2025",
+    "time": "9:00 AM - 5:00 PM",
+    "organizer": "TechPakistan",
+    "image": "https://res.cloudinary.com/djbq8nnsr/image/upload/v1747084333/Islamabad_Tech_Summit_cbne3k.jpg"
+  }
+]
